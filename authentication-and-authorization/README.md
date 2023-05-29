@@ -7,9 +7,9 @@ oc get oauth cluster -o yaml > oauth.yaml
 
 ## Extraer los usuarios del secreto:
 ```
-
+oc extract secret/htpasswd-secret -n openshift-config —to .  -confirm 
 ```
-# oc extract secret/htpasswd-secret -n openshift-config —to .  -confirm 
+
 
 
 
