@@ -177,15 +177,6 @@ To create the Data Protection Application Custom Resource:
   Events:                    <none>
 
 
-  $ oc get pods  -n openshift-adp
-  NAME                                               READY   STATUS    RESTARTS   AGE
-  openshift-adp-controller-manager-fcd5997b6-r7b6k   1/1     Running   0          43m
-  restic-mg2t7                                       1/1     Running   0          10m
-  restic-t9fg9                                       1/1     Running   0          10m
-  restic-z4rfq                                       1/1     Running   0          10m
-  velero-67f97ff4b-p2wrs                             1/1     Running   0          10m
-
-
   $ oc get all -n openshift-adp
   NAME                                                   READY   STATUS    RESTARTS   AGE
   pod/openshift-adp-controller-manager-fcd5997b6-r7b6k   1/1     Running   0          48m
@@ -210,6 +201,49 @@ To create the Data Protection Application Custom Resource:
   replicaset.apps/velero-67f97ff4b                             1         1         1       15m
 
   ```
+- Validate the backupStorageLocation
+  ```
+  $ oc get backupStorageLocations -n openshift-adp                       
+  NAME              PHASE       LAST VALIDATED   AGE   DEFAULT
+  velero-sample-1   Available   36s              29m   true
+
+  $ oc describe  backupStorageLocations/velero-sample-1  -n openshift-adp
+
+  ```
+
+## Make an Alias of Velero
+The velero CLI we have setup for you is an alias to a binary within the velero deployment on the cluster.
+```
+alias velero='oc -n openshift-adp exec deployment/velero -c velero -it -- ./velero'
+```
+
+Verify OADP resources are ready
+
+```
+oc get deployments -n openshift-adp
+```
 
 ## Deploying an Statefull application
 
+We can use [this application](https://github.com/san985tos/OpenDemoDayOpenShift/tree/main/persistent-storage) (Statefull application)
+
+
+
+## Create a Backup
+Run the following command (Velero CLI) to execute our first backup.
+```
+$ velero backup create install-storage --include-namespaces install-storage -n openshift-adp            1 err | 00:36:13 
+Backup request "install-storage" submitted successfully.
+Run `velero backup describe install-storage` or `velero backup logs install-storage` for more details.
+```
+
+Validate the backup.
+```
+$ velero backup describe install-storage
+
+```
+
+Validate backup logs.
+```
+
+```
