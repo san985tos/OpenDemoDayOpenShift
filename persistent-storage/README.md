@@ -5,14 +5,14 @@
 oc new-project install-storage
 ```
 
-
-
 ## Create the postgresql-persistent deployment
-  oc new-app --name postgresql-persistent \
+```
+oc new-app --name postgresql-persistent \
     --docker-image registry.redhat.io/rhel8/postgresql-12:1-43 \
     -e POSTGRESQL_USER=redhat \
     -e POSTGRESQL_PASSWORD=redhat123 \
     -e POSTGRESQL_DATABASE=persistentdb
+```
 
 ## Take a look on the PV on the system
   oc get pv
