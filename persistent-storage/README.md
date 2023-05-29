@@ -1,4 +1,4 @@
-# This is the procedure for running the persistent database on CRC.
+# A quick demo to review persistent storage on OpenShift
 
 ## Create the project
 ```
