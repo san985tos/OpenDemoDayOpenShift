@@ -153,12 +153,10 @@ oc get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name
 oc delete pod $(oc get pods -o custom-columns=POD:.metadata.name --no-headers|grep -v no)
 ```
 
-### Run the check svcript again
+### Run the check script again
 ```
 ./check_data.sh
 ```
-
-
 
 ### Delete all related application 
 ```
