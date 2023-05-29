@@ -123,8 +123,8 @@ oc set volumes deployment/postgresql-persistent \
     --claim-name postgresql-storage
 ```
 
-**Note**
-In case of of using an specific storageclass:
+> **Note**
+> In case of of using an specific storageclass:
 ```
   oc set volumes deployment/postgresql-persistent \
     --add --name postgresql-storage --type pvc --claim-class nfs-storage \
