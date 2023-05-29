@@ -159,7 +159,7 @@ To create the Data Protection Application Custom Resource:
             region: <region> 
             profile: "default"
   ```
-- Click "Create
+- Click Create
 - Validate the resources of DataProtectionApplication are ok and runnning
   ```
   $ oc get DataProtectionApplication -n openshift-adp
