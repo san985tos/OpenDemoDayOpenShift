@@ -24,7 +24,53 @@ oc get all
 oc get pv
 ```
 
+## Init shell session inside the deployed pod
+```
+oc rsh $(oc get pods -o custom-columns=POD:.metadata.name --no-headers) bash
+```
 
+## Create and populate a table on the created postgresql POSTGRESQL_DATABASE
+```
+/usr/bin/psql -U redhat persistentdb
+
+CREATE TABLE characters (
+	    id SERIAL PRIMARY KEY,
+	    name varchar(50),
+	    nationality varchar(50)
+);
+
+INSERT INTO characters (name, nationality)
+VALUES
+    ('Wolfgang Amadeus Mozart', 'Prince-Archbishopric of Salzburg'),
+    ('Ludwig van Beethoven', 'Bonn, Germany'),
+    ('Johann Sebastian Bach', 'Eisenach, Germany'),
+    ('José Pablo Moncayo', 'Guadalajara, México'),
+    ('Niccolò Paganini', 'Genoa, Italy');
+
+```
+
+## Validate the table exist and we can query the populated data
+```
+persistentdb=> \dt
+          List of relations
+ Schema |    Name    | Type  | Owner  
+--------+------------+-------+--------
+ public | characters | table | redhat
+(1 row)
+
+persistentdb=> select id,name,nationality from characters;
+ id |          name           |           nationality            
+----+-------------------------+----------------------------------
+  1 | Wolfgang Amadeus Mozart | Prince-Archbishopric of Salzburg
+  2 | Ludwig van Beethoven    | Bonn, Germany
+  3 | Johann Sebastian Bach   | Eisenach, Germany
+  4 | José Pablo Moncayo     | Guadalajara, México
+  5 | Niccolò Paganini       | Genoa, Italy
+(5 rows)
+
+persistentdb=>
+
+```
 
 
 
