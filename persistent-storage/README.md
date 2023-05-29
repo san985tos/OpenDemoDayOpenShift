@@ -1,13 +1,8 @@
 #This is the procedure for running the persistent database on CRC.
 
 ## Create the project
-    ```
-    oc new-project install-storage
-    ```
 ```
-git status
-git add
-git commit
+oc new-project install-storage
 ```
 
 
