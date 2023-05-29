@@ -108,3 +108,15 @@ You create a default Secret if your backup and snapshot locations use the same c
 ```
 oc create secret generic cloud-credentials -n openshift-adp --from-file cloud=credentials-velero
 ```
+
+Validate the created secret.
+```
+oc get secrets -n openshift-adp
+```
+## Create the DataProtectionApplication
+To create the Data Protection Application Custom Resource:
+- Login into OpenShift console
+- Select or verify you are on openshift-adp project
+- Go to Home > Operators > Installed Operators
+- Select OADP operator
+- Select Data Protection Application, and click create.
