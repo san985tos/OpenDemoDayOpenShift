@@ -132,27 +132,28 @@ oc set volumes deployment/postgresql-persistent \
     --claim-name postgresql-storage
 ```
 
-### List persistent volumes with custom columns
+> **Note**
+> List persistent volumes with custom columns
 ```
 oc get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name
 ```
 
-## Insert data into DB.
+### Insert data into DB (the quick way)
 ```
 ./init_data.sh
 ```
 
-## Check data
+### Check data
 ```
 ./check_data.sh
 ```
 
-## Delete all related application 
+### Delete all related application 
 ```
 oc delete all -l app=postgresql-persistent
 ```
 
-## Create the postgresql-persistent2 deployment
+### Create the postgresql-persistent2 deployment
 ```
 oc new-app --name postgresql-persistent2 \
     --docker-image registry.redhat.io/rhel8/postgresql-12:1-43 \
