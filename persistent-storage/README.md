@@ -123,8 +123,8 @@ oc set volumes deployment/postgresql-persistent \
     --claim-name postgresql-storage
 ```
 
-> **Note**
-> In case of storageclass:
+**Note**
+In case of of using an specific storageclass:
 ```
   oc set volumes deployment/postgresql-persistent \
     --add --name postgresql-storage --type pvc --claim-class nfs-storage \
@@ -132,7 +132,7 @@ oc set volumes deployment/postgresql-persistent \
     --claim-name postgresql-storage
 ```
 
-## List persistent volumes with custom columns
+### List persistent volumes with custom columns
 ```
 oc get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name
 ```
