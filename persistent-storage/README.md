@@ -166,13 +166,13 @@ oc delete all -l app=postgresql-persistent
 ### Create the postgresql-persistent2 deployment
 ```
 oc new-app --name postgresql-persistent2 \
-    --docker-image registry.redhat.io/rhel8/postgresql-12:1-43 \
+    --image registry.redhat.io/rhel8/postgresql-12:1-43 \
     -e POSTGRESQL_USER=redhat \
     -e POSTGRESQL_PASSWORD=redhat123 \
     -e POSTGRESQL_DATABASE=persistentdb
 ```
 
-## Attach the existing PVC to the postgresql-persistent2 deployment
+### Attach the existing PVC to the postgresql-persistent2 deployment
 ```
 oc set volumes \
   deployment/postgresql-persistent2 \
@@ -180,12 +180,12 @@ oc set volumes \
   --claim-name postgresql-storage --mount-path /var/lib/pgsql
 ``` 
 
-## Check data
+### Check data
 ```
 ./check_data.sh
 ```
 
-## Clean up:
+### Clean up:
 ```
 oc delete project install-storage
 ```
