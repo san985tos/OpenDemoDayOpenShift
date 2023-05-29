@@ -10,7 +10,10 @@ oc get oauth cluster -o yaml > oauth.yaml
 oc extract secret/htpasswd-secret -n openshift-config —to .  -confirm 
 ```
 
-
+## Take a look of the file
+```
+cat htpasswd
+```
 
 
 
