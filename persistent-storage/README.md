@@ -185,7 +185,7 @@ oc set volumes \
 ./check_data.sh
 ```
 
-### Clean up:
+### Clean up
 ```
 oc delete project install-storage
 ```
