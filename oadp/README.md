@@ -102,3 +102,9 @@ aws_access_key_id=<AWS_ACCESS_KEY_ID>
 aws_secret_access_key=<AWS_SECRET_ACCESS_KEY>
 EOF
 ```
+
+## OADP secret
+You create a default Secret if your backup and snapshot locations use the same credentials or if you do not require a snapshot location. The default name of the Secret is cloud-credentials.
+```
+oc create secret generic cloud-credentials -n openshift-adp --from-file cloud=credentials-velero
+```
