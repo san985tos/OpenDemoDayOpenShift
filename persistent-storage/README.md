@@ -115,7 +115,7 @@ oc new-app --name postgresql-persistent \
 oc get pv
 ```
 
-## Create a PVC and volume for the postgresql-persistent deployment
+### Create a PVC and volume for the postgresql-persistent deployment
 ```
 oc set volumes deployment/postgresql-persistent \
     --add --name postgresql-storage --type pvc \
@@ -123,7 +123,10 @@ oc set volumes deployment/postgresql-persistent \
     --claim-name postgresql-storage
 ```
 
-  in case of storageclass:
+> **Note**
+> This is a Note
+
+  Note: in case of storageclass:
 
 ```
   oc set volumes deployment/postgresql-persistent \
