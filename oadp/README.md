@@ -123,40 +123,93 @@ To create the Data Protection Application Custom Resource:
 - Select Data Protection Application, and click create.
 ![Alt text](pictures/pic2.png)
 - Select yaml view, and replace with the following YAML (replace with your information)
-```
-apiVersion: oadp.openshift.io/v1beta1
-kind: DataProtectionApplication
-metadata:
-  name: <dpa_sample>
-  namespace: openshift-adp
-spec:
-  configuration:
-    velero:
-      defaultPlugins:
-        - openshift 
-        - aws
-    restic:
-      enable: true 
-  backupLocations:
-    - name: default
+  ```
+  apiVersion: oadp.openshift.io/v1beta1
+  kind: DataProtectionApplication
+  metadata:
+    name: <dpa_sample>
+    namespace: openshift-adp
+  spec:
+    configuration:
       velero:
-        provider: aws
-        default: true
-        objectStorage:
-          bucket: <bucket_name> 
-          prefix: <prefix> 
-        config:
-          region: <region>
-          profile: "default"
-        credential:
-          key: cloud
-          name: cloud-credentials 
-  snapshotLocations: 
-    - name: default
-      velero:
-        provider: aws
-        config:
-          region: <region> 
-          profile: "default"
-```
+        defaultPlugins:
+          - openshift 
+          - aws
+      restic:
+        enable: true 
+    backupLocations:
+      - name: default
+        velero:
+          provider: aws
+          default: true
+          objectStorage:
+            bucket: <bucket_name> 
+            prefix: <prefix> 
+          config:
+            region: <region>
+            profile: "default"
+          credential:
+            key: cloud
+            name: cloud-credentials 
+    snapshotLocations: 
+      - name: default
+        velero:
+          provider: aws
+          config:
+            region: <region> 
+            profile: "default"
+  ```
 - Click "Create
+- Validate the resources of DataProtectionApplication are ok and runnning
+  ```
+  $ oc get DataProtectionApplication -n openshift-adp
+  NAME            AGE
+  velero-sample   9m34s
+
+  $ oc describe  DataProtectionApplication velero-sample -n openshift-adp | egrep Status -A 7
+  Status:
+    Conditions:
+      Last Transition Time:  2023-05-29T06:01:28Z
+      Message:               Reconcile complete
+      Reason:                Complete
+      Status:                True
+      Type:                  Reconciled
+  Events:                    <none>
+
+
+  $ oc get pods  -n openshift-adp
+  NAME                                               READY   STATUS    RESTARTS   AGE
+  openshift-adp-controller-manager-fcd5997b6-r7b6k   1/1     Running   0          43m
+  restic-mg2t7                                       1/1     Running   0          10m
+  restic-t9fg9                                       1/1     Running   0          10m
+  restic-z4rfq                                       1/1     Running   0          10m
+  velero-67f97ff4b-p2wrs                             1/1     Running   0          10m
+
+
+  $ oc get all -n openshift-adp
+  NAME                                                   READY   STATUS    RESTARTS   AGE
+  pod/openshift-adp-controller-manager-fcd5997b6-r7b6k   1/1     Running   0          48m
+  pod/restic-mg2t7                                       1/1     Running   0          15m
+  pod/restic-t9fg9                                       1/1     Running   0          15m
+  pod/restic-z4rfq                                       1/1     Running   0          15m
+  pod/velero-67f97ff4b-p2wrs                             1/1     Running   0          15m
+
+  NAME                                                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+  service/openshift-adp-controller-manager-metrics-service   ClusterIP   172.30.34.131    <none>        8443/TCP   49m
+  service/openshift-adp-velero-metrics-svc                   ClusterIP   172.30.242.100   <none>        8085/TCP   15m
+
+  NAME                    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+  daemonset.apps/restic   3         3         3       3            3           <none>          15m
+
+  NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
+  deployment.apps/openshift-adp-controller-manager   1/1     1            1           48m
+  deployment.apps/velero                             1/1     1            1           15m
+
+  NAME                                                         DESIRED   CURRENT   READY   AGE
+  replicaset.apps/openshift-adp-controller-manager-fcd5997b6   1         1         1       48m
+  replicaset.apps/velero-67f97ff4b                             1         1         1       15m
+
+  ```
+
+## Deploying an Statefull application
+
