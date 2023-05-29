@@ -5,7 +5,7 @@
 oc new-project install-storage
 ```
 
-## Create the postgresql-persistent deployment
+## Create the postgresql-no-persistent deployment
 ```
 oc new-app --name postgresql-no-persistent \
     --image registry.redhat.io/rhel8/postgresql-12:1-43 \
@@ -13,6 +13,21 @@ oc new-app --name postgresql-no-persistent \
     -e POSTGRESQL_PASSWORD=redhat123 \
     -e POSTGRESQL_DATABASE=persistentdb
 ```
+
+## Take a look of the deployed resources
+```
+oc get all
+```
+
+## Take a look that there is not PV created at this time
+```
+oc get pv
+```
+
+
+
+
+
 
 ## Take a look on the PV on the system
 ```
