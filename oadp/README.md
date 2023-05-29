@@ -6,6 +6,8 @@ You can download and install the Velero CLI tool by following the instructions o
 
 You must have the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) installed.
 
+Install OADP operator through OpenShift's Operator Hub.
+
 
 ## Configuring AWS
 
