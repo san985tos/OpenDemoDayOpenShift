@@ -98,19 +98,22 @@ persistentdb=>
 
 ```
 
+## Statefull database 
 
 
+### Create the postgresql persistent deployment
+```
+oc new-app --name postgresql-persistent \
+    --image registry.redhat.io/rhel8/postgresql-12:1-43 \
+    -e POSTGRESQL_USER=redhat \
+    -e POSTGRESQL_PASSWORD=redhat123 \
+    -e POSTGRESQL_DATABASE=persistentdb
+```
 
-
-
-
-## Take a look on the PV on the system
+### Take a look on there is no PVs currently
 ```
 oc get pv
-oc new-project install-storage
 ```
-
-
 
 ## Create a PVC and volume for the postgresql-persistent deployment
 ```
