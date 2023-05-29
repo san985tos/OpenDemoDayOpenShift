@@ -148,6 +148,18 @@ oc get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name
 ./check_data.sh
 ```
 
+### Delete persistent pods
+```
+oc delete pod $(oc get pods -o custom-columns=POD:.metadata.name --no-headers|grep -v no)
+```
+
+### Run the check svcript again
+```
+./check_data.sh
+```
+
+
+
 ### Delete all related application 
 ```
 oc delete all -l app=postgresql-persistent
