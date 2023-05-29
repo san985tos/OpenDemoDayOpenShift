@@ -4,6 +4,12 @@
     ```
     oc new-project install-storage
     ```
+```
+git status
+git add
+git commit
+```
+
 
 
 ## Create the postgresql-persistent deployment
