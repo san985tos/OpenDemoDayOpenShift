@@ -1,11 +1,13 @@
 # A quick demo to review persistent storage on OpenShift
 
-## Create the project
+## Stateless database
+
+### Create the project
 ```
 oc new-project install-storage
 ```
 
-## Create the postgresql-no-persistent deployment
+### Create the postgresql-no-persistent deployment
 ```
 oc new-app --name postgresql-no-persistent \
     --image registry.redhat.io/rhel8/postgresql-12:1-43 \
@@ -14,22 +16,22 @@ oc new-app --name postgresql-no-persistent \
     -e POSTGRESQL_DATABASE=persistentdb
 ```
 
-## Take a look of the deployed resources
+### Take a look of the deployed resources
 ```
 oc get all
 ```
 
-## Take a look that there is not PV created at this time
+### Take a look that there is not PV created at this time
 ```
 oc get pv
 ```
 
-## Init shell session inside the deployed pod
+### Init shell session inside the deployed pod
 ```
 oc rsh $(oc get pods -o custom-columns=POD:.metadata.name --no-headers) bash
 ```
 
-## Create and populate a table on the created postgresql POSTGRESQL_DATABASE
+### Create and populate a table on the created postgresql POSTGRESQL_DATABASE
 ```
 /usr/bin/psql -U redhat persistentdb
 
@@ -49,7 +51,7 @@ VALUES
 
 ```
 
-## Validate the table exist and we can query the populated data
+### Validate the table exist and we can query the populated data
 ```
 persistentdb=> \dt
           List of relations
@@ -71,6 +73,33 @@ persistentdb=> select id,name,nationality from characters;
 persistentdb=>
 
 ```
+
+### Delete the pod
+```
+oc delete pod $(oc get pods -o custom-columns=POD:.metadata.name --no-headers)
+```
+
+### Start shell session in the new pod
+```
+oc rsh $(oc get pods -o custom-columns=POD:.metadata.name --no-headers) bash
+```
+
+### Start session on the postgresql and run the same query
+```
+/usr/bin/psql -U redhat persistentdb
+
+persistentdb=> \dt
+Did not find any relations.
+persistentdb=> select id,name,nationality from characters;
+ERROR:  relation "characters" does not exist
+LINE 1: select id,name,nationality from characters;
+                                        ^
+persistentdb=>
+
+```
+
+
+
 
 
 
