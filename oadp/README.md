@@ -119,4 +119,44 @@ To create the Data Protection Application Custom Resource:
 - Select or verify you are on openshift-adp project
 - Go to Home > Operators > Installed Operators
 - Select OADP operator
+![Alt text](pictures/pic1.png)
 - Select Data Protection Application, and click create.
+![Alt text](pictures/pic2.png)
+- Select yaml view, and replace with the following YAML (replace with your information)
+```
+apiVersion: oadp.openshift.io/v1beta1
+kind: DataProtectionApplication
+metadata:
+  name: <dpa_sample>
+  namespace: openshift-adp
+spec:
+  configuration:
+    velero:
+      defaultPlugins:
+        - openshift 
+        - aws
+    restic:
+      enable: true 
+  backupLocations:
+    - name: default
+      velero:
+        provider: aws
+        default: true
+        objectStorage:
+          bucket: <bucket_name> 
+          prefix: <prefix> 
+        config:
+          region: <region>
+          profile: "default"
+        credential:
+          key: cloud
+          name: cloud-credentials 
+  snapshotLocations: 
+    - name: default
+      velero:
+        provider: aws
+        config:
+          region: <region> 
+          profile: "default"
+```
+- Click "Create
